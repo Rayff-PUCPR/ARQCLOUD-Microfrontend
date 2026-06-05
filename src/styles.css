@@ -1,0 +1,214 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+}
+
+@layer components {
+  .primary-button {
+    @apply inline-flex min-h-10 items-center gap-2 rounded-md bg-emerald-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:bg-slate-400;
+  }
+
+  .secondary-button {
+    @apply inline-flex min-h-10 items-center gap-2 rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:text-slate-400;
+  }
+
+  .danger-button {
+    @apply inline-flex min-h-10 items-center gap-2 rounded-md border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 transition hover:border-red-300 hover:bg-red-100 disabled:cursor-not-allowed disabled:text-red-300;
+  }
+
+  .small-button {
+    @apply inline-flex min-h-8 items-center rounded-md bg-slate-900 px-3 py-1 text-xs font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-400;
+  }
+
+  .outline-small-button {
+    @apply inline-flex min-h-8 items-center rounded-md border border-slate-300 bg-white px-3 py-1 text-xs font-semibold text-slate-700 transition hover:bg-slate-100;
+  }
+
+  .icon-button {
+    @apply inline-flex h-10 w-10 items-center justify-center rounded-md border border-slate-300 bg-white text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:text-slate-400;
+  }
+
+  .field {
+    @apply flex flex-col gap-1 text-sm font-medium text-slate-700;
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    @apply min-h-10 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100;
+  }
+
+  .app-shell {
+    @apply mx-auto grid min-h-screen max-w-[1600px] gap-0 lg:grid-cols-[280px_1fr];
+  }
+
+  .sidebar {
+    @apply border-b border-slate-200 bg-white p-4 lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:border-b-0 lg:border-r;
+  }
+
+  .brand {
+    @apply mb-4 flex items-center gap-3 rounded-md border border-slate-200 bg-slate-50 p-3;
+  }
+
+  .brand-icon {
+    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-emerald-600 text-white;
+  }
+
+  .brand h1 {
+    @apply text-lg font-semibold text-slate-950;
+  }
+
+  .brand p {
+    @apply text-xs font-medium text-slate-500;
+  }
+
+  .side-nav {
+    @apply grid gap-2 sm:grid-cols-4 lg:grid-cols-1;
+  }
+
+  .side-nav-item {
+    @apply inline-flex min-h-11 items-center gap-3 rounded-md px-3 py-2 text-left text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-950;
+  }
+
+  .side-nav-active {
+    @apply bg-emerald-50 text-emerald-800 ring-1 ring-emerald-100;
+  }
+
+  .sidebar-actions {
+    @apply mt-4 grid gap-2 lg:mt-auto;
+  }
+
+  .content-area {
+    @apply min-w-0 px-4 py-5 sm:px-6 lg:px-8;
+  }
+
+  .content-header {
+    @apply mb-5 flex flex-col gap-4 rounded-md border border-slate-200 bg-white p-4 shadow-sm md:flex-row md:items-center md:justify-between;
+  }
+
+  .content-header h2 {
+    @apply text-xl font-semibold text-slate-950;
+  }
+
+  .section-kicker {
+    @apply text-xs font-semibold uppercase tracking-wide text-emerald-700;
+  }
+
+  .metrics-grid {
+    @apply mb-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-5;
+  }
+
+  .tabs {
+    @apply mb-5 flex gap-2 overflow-x-auto border-b border-slate-200;
+  }
+
+  .tab {
+    @apply inline-flex min-h-11 shrink-0 items-center gap-2 border-b-2 border-transparent px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-white hover:text-slate-950;
+  }
+
+  .tab-active {
+    @apply border-emerald-600 bg-white text-emerald-800;
+  }
+
+  .panel {
+    @apply rounded-md border border-slate-200 bg-white p-4 shadow-sm;
+  }
+
+  .metric {
+    @apply rounded-md border border-slate-200 bg-white px-4 py-3 shadow-sm;
+  }
+
+  .notice {
+    @apply mb-5 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-900;
+  }
+
+  .summary-line {
+    @apply flex min-h-16 items-center justify-between gap-3 rounded-md border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600;
+  }
+
+  .summary-line strong {
+    @apply text-base font-semibold text-slate-950;
+  }
+
+  .action-grid {
+    @apply grid gap-3 sm:grid-cols-3 xl:grid-cols-1;
+  }
+
+  .action-button {
+    @apply inline-flex min-h-14 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-800 transition hover:border-emerald-500 hover:bg-emerald-50 disabled:cursor-not-allowed disabled:text-slate-400;
+  }
+
+  .list-card {
+    @apply flex min-h-20 items-center justify-between gap-3 rounded-md border border-slate-200 bg-slate-50 px-3 py-3;
+  }
+
+  .selected-card {
+    @apply border-emerald-300 bg-emerald-50;
+  }
+
+  .list-card h3 {
+    @apply truncate text-sm font-semibold text-slate-950;
+  }
+
+  .list-card p {
+    @apply mt-1 text-sm text-slate-600;
+  }
+
+  .empty-state {
+    @apply rounded-md border border-dashed border-slate-300 px-4 py-8 text-center text-sm text-slate-500;
+  }
+
+  .driver-card {
+    @apply flex min-h-20 items-center justify-between gap-3 rounded-md border border-slate-200 bg-slate-50 px-3 py-3;
+  }
+
+  .driver-card h3 {
+    @apply truncate text-sm font-semibold text-slate-950;
+  }
+
+  .driver-card p {
+    @apply mt-1 text-sm text-slate-600;
+  }
+
+  .driver-icon {
+    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-blue-100 text-blue-800;
+  }
+
+  .status-badge {
+    @apply rounded px-2 py-1 text-xs font-semibold;
+  }
+
+  .map-shell {
+    @apply relative min-h-[420px] overflow-hidden rounded-md border border-slate-200 bg-slate-100;
+  }
+
+  .map-canvas {
+    @apply h-[420px] w-full;
+  }
+
+  .map-empty {
+    @apply flex min-h-[420px] items-center justify-center rounded-md border border-dashed border-slate-300 bg-slate-50 px-6 text-center text-sm font-medium text-slate-500;
+  }
+
+  .map-error {
+    @apply absolute left-3 right-3 top-3 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm font-medium text-red-700 shadow-sm;
+  }
+
+  .map-route-summary {
+    @apply absolute bottom-3 left-3 right-3 flex flex-col gap-1 rounded-md border border-slate-200 bg-white/95 px-4 py-3 text-sm text-slate-600 shadow-sm backdrop-blur sm:flex-row sm:items-center sm:justify-between;
+  }
+
+  .map-route-summary strong {
+    @apply text-slate-950;
+  }
+}
