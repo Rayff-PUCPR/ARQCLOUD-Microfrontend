@@ -24,6 +24,7 @@ import {
   CreateDriverInput,
   createOrder,
   CreateOrderInput,
+  finishRoute,
   getAggregatedData,
   resetDatabase
 } from './api';
@@ -78,7 +79,7 @@ export function App() {
     [data?.drivers]
   );
 
-  const selectedDriverExists = data?.drivers.some((driver) => driver.id === selectedDriver);
+  const selectedDriverIsAvailable = availableDrivers.some((driver) => driver.id === selectedDriver);
   const selectedRoute = useMemo(() => {
     return data?.routes.find((route) => route.id === selectedRouteId) ?? data?.routes[0];
   }, [data?.routes, selectedRouteId]);
@@ -90,8 +91,9 @@ export function App() {
       const nextData = await getAggregatedData();
       setData(nextData);
 
-      if (!nextData.drivers.some((driver) => driver.id === selectedDriver)) {
-        setSelectedDriver(nextData.drivers[0]?.id ?? '');
+      const nextAvailableDrivers = nextData.drivers.filter((driver) => driver.status === 'AVAILABLE');
+      if (!nextAvailableDrivers.some((driver) => driver.id === selectedDriver)) {
+        setSelectedDriver(nextAvailableDrivers[0]?.id ?? '');
       }
 
       if (!nextData.routes.some((route) => route.id === selectedRouteId)) {
@@ -165,6 +167,25 @@ export function App() {
     try {
       await acceptRoute(routeId, selectedDriver);
       setMessage(driver ? `Rota aceita por ${driver.name}.` : 'Rota aceita.');
+      await load();
+    } catch (error) {
+      setMessage((error as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function handleFinishRoute(routeId: string) {
+    const route = data?.routes.find((item) => item.id === routeId);
+    const confirmed = window.confirm(`Finalizar a rota ${route?.region ?? ''}?`);
+    if (!confirmed) {
+      return;
+    }
+
+    setBusy(true);
+    try {
+      await finishRoute(routeId);
+      setMessage('Rota finalizada. Motorista liberado para novas entregas.');
       await load();
     } catch (error) {
       setMessage((error as Error).message);
@@ -305,8 +326,9 @@ export function App() {
                   drivers={data?.drivers ?? []}
                   busy={busy}
                   selectedDriver={selectedDriver}
-                  selectedDriverExists={Boolean(selectedDriverExists)}
+                  selectedDriverExists={selectedDriverIsAvailable}
                   onAccept={handleAcceptRoute}
+                  onFinish={handleFinishRoute}
                   onSelectRoute={setSelectedRouteId}
                   selectedRouteId={selectedRoute?.id ?? ''}
                 />
@@ -334,7 +356,7 @@ export function App() {
                     <span>Motorista</span>
                     <select value={selectedDriver} onChange={(event) => setSelectedDriver(event.target.value)}>
                       <option value="">Selecione</option>
-                      {data?.drivers.map((driver) => (
+                      {availableDrivers.map((driver) => (
                         <option key={driver.id} value={driver.id}>
                           {driver.name} - {driver.vehicle}
                         </option>
@@ -359,8 +381,9 @@ export function App() {
                   drivers={data?.drivers ?? []}
                   busy={busy}
                   selectedDriver={selectedDriver}
-                  selectedDriverExists={Boolean(selectedDriverExists)}
+                  selectedDriverExists={selectedDriverIsAvailable}
                   onAccept={handleAcceptRoute}
+                  onFinish={handleFinishRoute}
                   onSelectRoute={setSelectedRouteId}
                   selectedRouteId={selectedRoute?.id ?? ''}
                 />
@@ -573,6 +596,7 @@ function RouteList({
   selectedDriver,
   selectedDriverExists,
   onAccept,
+  onFinish,
   onSelectRoute,
   selectedRouteId
 }: {
@@ -582,6 +606,7 @@ function RouteList({
   selectedDriver: string;
   selectedDriverExists: boolean;
   onAccept: (routeId: string) => void;
+  onFinish: (routeId: string) => void;
   onSelectRoute: (routeId: string) => void;
   selectedRouteId: string;
 }) {
@@ -615,6 +640,12 @@ function RouteList({
                   type="button"
                 >
                   Aceitar
+                </button>
+              )}
+              {route.status === 'IN_PROGRESS' && (
+                <button className="small-button" onClick={() => onFinish(route.id)} disabled={busy} type="button">
+                  <CheckCircle2 size={14} aria-hidden="true" />
+                  Finalizar
                 </button>
               )}
               <button className="outline-small-button" onClick={() => onSelectRoute(route.id)} type="button">

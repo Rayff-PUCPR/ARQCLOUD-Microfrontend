@@ -27,7 +27,7 @@ body {
   }
 
   .small-button {
-    @apply inline-flex min-h-8 items-center rounded-md bg-slate-900 px-3 py-1 text-xs font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-400;
+    @apply inline-flex min-h-8 items-center gap-1 rounded-md bg-slate-900 px-3 py-1 text-xs font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-400;
   }
 
   .outline-small-button {

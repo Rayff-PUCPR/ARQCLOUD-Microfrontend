@@ -106,6 +106,12 @@ export async function acceptRoute(routeId: string, driverId: string) {
   });
 }
 
+export async function finishRoute(routeId: string) {
+  return request(`/api/v1/routes/${routeId}/finish`, {
+    method: 'POST'
+  });
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${BFF_URL}${path}`, {
     ...init,
